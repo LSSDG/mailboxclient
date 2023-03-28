@@ -1,9 +1,13 @@
 //import 
 
-import { useRef } from "react"
-import { Link } from "react-router-dom";
+import { useRef ,useEffect} from "react"
+import { Link, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
+    useEffect(()=>{
+        console.log("not done")
+    },[])
+    const navigate=useNavigate();
 
     const emailRef=useRef();
     const passwordRef=useRef();
@@ -28,6 +32,7 @@ const SignUp = () => {
         })
         if(res.ok){
             const data=await res.json();
+            navigate('/home');
         }else{
             console.log("error");
         }
