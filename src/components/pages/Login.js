@@ -1,28 +1,23 @@
-//import 
-
 import { useRef } from "react"
-import { Link } from "react-router-dom";
 
-const SignUp = () => {
+const Login = () => {
 
     const emailRef=useRef();
     const passwordRef=useRef();
-    const cpasswordRef=useRef();
+    //const cpasswordRef=useRef();
 
-    const signupHandler = async (e) =>{
+    const loginHandler = async (e) =>{
         e.preventDefault();
         const email=emailRef.current.value;
         const password=passwordRef.current.value;
-        const cpassword=cpasswordRef.current.value;
-        if(password!==cpassword){
-            return;
-        }
+         
+         
         const user={
             email:email,
             password:password,
             returnSecureToken:true
         }
-        const res = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBUiaKIOB1weqkngF-EFIUNdGu_AugP7EY',{
+        const res = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signIn?key=AIzaSyBUiaKIOB1weqkngF-EFIUNdGu_AugP7EY',{
             method:'POST',
             body:JSON.stringify(user),
         })
@@ -34,19 +29,17 @@ const SignUp = () => {
     }
 
     return(<div>
-            <form onSubmit={signupHandler}>
-                <h4>SignUp</h4>
+            <form onSubmit={loginHandler}>
+                <h4>Login</h4>
                 <label htmlFor="email">Email</label>
                 <input type="email" id="email" ref={emailRef} required></input>
                 <label htmlFor="password">Password</label>
                 <input type="password" id="password" ref={passwordRef} required></input>
-                <label htmlFor="cpassword">Confirm Password</label>
-                <input type="password" id="cpassword" ref={cpasswordRef} required></input>
-                <button type="submit">Sign Up</button>
-                <Link to='/login'>Already have an account? Login</Link>
+                 
+                <button type="submit">Login</button>
             </form>
         </div>)
 }
 
 
-export default SignUp
+export default Login
