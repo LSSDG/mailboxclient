@@ -1,6 +1,11 @@
 import { useRef } from "react"
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { authActions } from "../../store";
 
 const Login = () => {
+    const navigate=useNavigate();
+    const dispatch=useDispatch();
 
     const emailRef=useRef();
     const passwordRef=useRef();
@@ -17,14 +22,18 @@ const Login = () => {
             password:password,
             returnSecureToken:true
         }
-        const res = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signIn?key=AIzaSyBUiaKIOB1weqkngF-EFIUNdGu_AugP7EY',{
+        const res = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBUiaKIOB1weqkngF-EFIUNdGu_AugP7EY',{
             method:'POST',
             body:JSON.stringify(user),
         })
         if(res.ok){
             const data=await res.json();
+            localStorage.setItem('userEmail',data.email);
+            dispatch(authActions.auth(data.email))
+            navigate('/home')
+
         }else{
-            console.log("error");
+            console.log("error could not login");
         }
     }
 
@@ -37,6 +46,7 @@ const Login = () => {
                 <input type="password" id="password" ref={passwordRef} required></input>
                  
                 <button type="submit">Login</button>
+                <Link to='/'>Dont have an account ,signup</Link>
             </form>
         </div>)
 }

@@ -1,9 +1,12 @@
 //import 
 
 import { useRef ,useEffect} from "react"
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { authActions } from "../../store";
 
 const SignUp = () => {
+    const dispatch=useDispatch();
     useEffect(()=>{
         console.log("not done")
     },[])
@@ -32,6 +35,9 @@ const SignUp = () => {
         })
         if(res.ok){
             const data=await res.json();
+            localStorage.setItem('userEmail',data.email);
+            dispatch(authActions.auth(data.email));
+            console.log(data.email);
             navigate('/home');
         }else{
             console.log("error");
