@@ -2,8 +2,8 @@ import 'bootstrap/dist/css/bootstrap.css'
 import { useState } from 'react'
 import {useSelector,useDispatch} from 'react-redux'
 import { inboxActions } from '../../store';
-const Inbox = ({senderEmail,subject,message,id,item,read,receiverEmail})=>{
-    const [toggle,setToggle] = useState();
+const Inbox = ({senderEmail,subject,message,id,item,read,receiverEmail,date})=>{
+    const [toggle,setToggle] = useState(false);
     const inboxChanging=useSelector(state=>state.inbox.idata);
     const dispatch=useDispatch();
 
@@ -37,7 +37,7 @@ const Inbox = ({senderEmail,subject,message,id,item,read,receiverEmail})=>{
             if(res.ok){
                 const data = await res.json();
                 dispatch(inboxActions.changingInbox(data))
-                alert("deleted")
+                console.log("deleted")
         }else{
             console.log('error in deleting')
         }
@@ -45,13 +45,14 @@ const Inbox = ({senderEmail,subject,message,id,item,read,receiverEmail})=>{
         deleteEmailStatus();
     }
     return(<li className='list-group-item' >
-        <button className="btn btn-warning" onClick={openEmail}>Open</button>
+        <button className="btn btn-warning" onClick={openEmail}>{toggle===true ? 'Close' : 'Open' }</button>
         <button className="btn btn-warning" onClick={deleteEmail}>Delete</button>
-        <div>
+        <div className={read===true ? "bg-dark" : "bg-light"}>
             {toggle && <div>
             <span>From:{senderEmail}</span> <br></br>
             <span>Subject:{subject}</span> <br/>
-            <p>Message:{message}</p></div>}    
+            <p>Message:{message}</p>
+            <span> {date}</span></div>}    
         </div>
             
     </li>)
